@@ -1,4 +1,6 @@
+import 'package:file_share/view/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class SplashScreenState extends State<SplashScreen>
   late AnimationController controller;
   late Animation<double> logoAnimation;
   late Animation nameAmination;
+  late Animation opacity;
 
   @override
   void initState() {
@@ -26,21 +29,37 @@ class SplashScreenState extends State<SplashScreen>
     logoAnimation = Tween<double>(begin: 0.0, end: 19.0).animate(
       CurvedAnimation(
           parent: controller,
-          curve: const Interval(0.0, 0.5, curve: Curves.elasticOut)),
+          curve: const Interval(0.0, 0.4, curve: Curves.elasticOut)),
     );
 
-    nameAmination = Tween<double>(begin: 0.0, end: 100.0).animate(
+    nameAmination = Tween<double>(begin: 75.0, end: 100.0).animate(
       CurvedAnimation(
         parent: controller,
         curve: const Interval(
-          0.5,
+          0.6,
           0.8,
           curve: Curves.easeIn,
         ),
       ),
     );
 
-    controller.forward();
+    opacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.linearToEaseOut,
+      ),
+    );
+    Future.delayed(
+      const Duration(seconds: 0),
+    ).then(
+      (value) => controller.forward().whenComplete(
+            () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ),
+            ),
+          ),
+    );
   }
 
   @override
@@ -52,21 +71,21 @@ class SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color(0xFF5072A7),
         body: AnimatedBuilder(
             animation: nameAmination,
             builder: (context, child) {
               return Stack(
                 children: [
                   Positioned(
-                    top: 400,
-                    left: -nameAmination.value,
-                    child: Center(
-                      child: AnimatedBuilder(
-                        animation: logoAnimation,
-                        builder: (context, child) => Transform.rotate(
-                          angle: logoAnimation.value,
-                          child: Image.asset("assets/share_logo.png"),
-                        ),
+                    top: 360,
+                    //  left: -nameAmination.value,
+                    left: 50,
+                    child: AnimatedBuilder(
+                      animation: logoAnimation,
+                      builder: (context, child) => Transform.rotate(
+                        angle: logoAnimation.value,
+                        child: Image.asset("assets/logo.png"),
                       ),
                     ),
                   ),
@@ -79,11 +98,22 @@ class SplashScreenState extends State<SplashScreen>
 
                   Positioned(
                     top: 400,
-                    left: 150.0 + nameAmination.value,
+                    left: 80.0 + nameAmination.value,
                     // right: nameAmination.value,
-                    child: Text(
-                      'File Share',
-                      style: TextStyle(color: Colors.red),
+                    child: AnimatedOpacity(
+                      duration: const Duration(seconds: 4),
+                      opacity: opacity.value,
+                      child: AnimatedScale(
+                        duration: const Duration(seconds: 4),
+                        scale: 1.5,
+                        child: Text(
+                          'File Share',
+                          style: GoogleFonts.arvo(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
                     ),
                   ),
                 ],
