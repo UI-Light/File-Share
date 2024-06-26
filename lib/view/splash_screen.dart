@@ -68,44 +68,46 @@ class SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFF5072A7),
-        body: AnimatedBuilder(
-            animation: nameAmination,
-            builder: (context, child) {
-              return Stack(
-                children: [
-                  Positioned(
-                    top: 360,
-                    left: 50,
-                    child: AnimatedBuilder(
-                      animation: logoAnimation,
-                      builder: (context, child) => Transform.rotate(
-                        angle: logoAnimation.value,
-                        child: Image.asset("assets/logo.png"),
-                      ),
+      backgroundColor: const Color(0xFF5072A7),
+      body: AnimatedBuilder(
+        animation: nameAmination,
+        builder: (context, child) {
+          return Stack(
+            children: [
+              Positioned(
+                top: 360,
+                left: 50,
+                child: AnimatedBuilder(
+                  animation: logoAnimation,
+                  builder: (context, child) => Transform.rotate(
+                    angle: logoAnimation.value,
+                    child: Image.asset("assets/logo.png"),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 400,
+                left: 80.0 + nameAmination.value,
+                child: AnimatedOpacity(
+                  duration: const Duration(seconds: 1),
+                  opacity: opacity.value,
+                  child: AnimatedScale(
+                    duration: const Duration(seconds: 3), //this
+                    scale: 1.5,
+                    child: Text(
+                      'File Share',
+                      style: GoogleFonts.arvo(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800),
                     ),
                   ),
-                  Positioned(
-                    top: 400,
-                    left: 80.0 + nameAmination.value,
-                    child: AnimatedOpacity(
-                      duration: const Duration(seconds: 1),
-                      opacity: opacity.value,
-                      child: AnimatedScale(
-                        duration: const Duration(seconds: 3), //this
-                        scale: 1.5,
-                        child: Text(
-                          'File Share',
-                          style: GoogleFonts.arvo(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }));
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
