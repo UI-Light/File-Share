@@ -23,8 +23,12 @@ class SplashScreenState extends State<SplashScreen>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 8),
+      duration: const Duration(seconds: 7),
     );
+
+    controller.addListener(() {
+      setState(() {});
+    });
 
     logoAnimation = Tween<double>(begin: 0.0, end: 19.0).animate(
       CurvedAnimation(
@@ -36,8 +40,8 @@ class SplashScreenState extends State<SplashScreen>
       CurvedAnimation(
         parent: controller,
         curve: const Interval(
-          0.6,
-          0.8,
+          0.3,
+          0.4,
           curve: Curves.easeIn,
         ),
       ),
@@ -101,7 +105,7 @@ class SplashScreenState extends State<SplashScreen>
                     left: 80.0 + nameAmination.value,
                     // right: nameAmination.value,
                     child: AnimatedOpacity(
-                      duration: const Duration(seconds: 4),
+                      duration: const Duration(seconds: 3),
                       opacity: opacity.value,
                       child: AnimatedScale(
                         duration: const Duration(seconds: 4),
