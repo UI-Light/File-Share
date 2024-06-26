@@ -49,14 +49,14 @@ class SplashScreenState extends State<SplashScreen>
         curve: Curves.linearToEaseOut,
       ),
     );
-    controller.forward();
-    // controller.forward().whenComplete(
-    //       () => Navigator.of(context).pushReplacement(
-    //         MaterialPageRoute(
-    //           builder: (context) => const HomeScreen(),
-    //         ),
-    //       ),
-    //     );
+
+    controller.forward().whenComplete(
+          () => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          ),
+        );
   }
 
   @override
