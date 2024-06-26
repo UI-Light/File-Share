@@ -23,12 +23,8 @@ class SplashScreenState extends State<SplashScreen>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 7),
+      duration: const Duration(seconds: 3),
     );
-
-    controller.addListener(() {
-      setState(() {});
-    });
 
     logoAnimation = Tween<double>(begin: 0.0, end: 19.0).animate(
       CurvedAnimation(
@@ -53,17 +49,14 @@ class SplashScreenState extends State<SplashScreen>
         curve: Curves.linearToEaseOut,
       ),
     );
-    Future.delayed(
-      const Duration(seconds: 0),
-    ).then(
-      (value) => controller.forward().whenComplete(
-            () => Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-            ),
-          ),
-    );
+    controller.forward();
+    // controller.forward().whenComplete(
+    //       () => Navigator.of(context).pushReplacement(
+    //         MaterialPageRoute(
+    //           builder: (context) => const HomeScreen(),
+    //         ),
+    //       ),
+    //     );
   }
 
   @override
@@ -83,7 +76,6 @@ class SplashScreenState extends State<SplashScreen>
                 children: [
                   Positioned(
                     top: 360,
-                    //  left: -nameAmination.value,
                     left: 50,
                     child: AnimatedBuilder(
                       animation: logoAnimation,
@@ -93,22 +85,14 @@ class SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                   ),
-                  // Center(
-                  //   child: RotationTransition(
-                  //     turns: logoAnimation,
-                  //     child: Image.asset("assets/share_logo.png"),
-                  //   ),
-                  // ),
-
                   Positioned(
                     top: 400,
                     left: 80.0 + nameAmination.value,
-                    // right: nameAmination.value,
                     child: AnimatedOpacity(
-                      duration: const Duration(seconds: 3),
+                      duration: const Duration(seconds: 1),
                       opacity: opacity.value,
                       child: AnimatedScale(
-                        duration: const Duration(seconds: 4),
+                        duration: const Duration(seconds: 3), //this
                         scale: 1.5,
                         child: Text(
                           'File Share',
