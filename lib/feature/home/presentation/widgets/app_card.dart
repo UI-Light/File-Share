@@ -10,8 +10,8 @@ class AppCard extends StatelessWidget {
         Container(
             child: Column(children: [
           Image.asset('assets/logo.png'),
-          Text('Adobe Acrobat'),
-          Text('26.43 MB'),
+          const Text('Adobe Acrobat'),
+          const Text('26.43 MB'),
         ])),
       ],
     );

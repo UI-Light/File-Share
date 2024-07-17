@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: TextTheme(
-          bodyMedium: GoogleFonts.montserrat(),
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
         ),
         useMaterial3: true,
       ),

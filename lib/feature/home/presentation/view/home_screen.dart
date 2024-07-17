@@ -16,7 +16,8 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Expanded(
+        body: DefaultTabController(
+          length: 6,
           child: Column(
             children: [
               Container(
@@ -46,20 +47,17 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const DefaultTabController(
-                length: 6,
-                child: TabBar(
-                  isScrollable: true,
-                  labelStyle: TextStyle(fontSize: 13),
-                  tabs: [
-                    Tab(text: 'History'),
-                    Tab(text: 'App'),
-                    Tab(text: 'Photo'),
-                    Tab(text: 'Music'),
-                    Tab(text: 'Video'),
-                    Tab(text: 'File'),
-                  ],
-                ),
+              const TabBar(
+                isScrollable: true,
+                labelStyle: TextStyle(fontSize: 13),
+                tabs: [
+                  Tab(text: 'History'),
+                  Tab(text: 'App'),
+                  Tab(text: 'Photo'),
+                  Tab(text: 'Music'),
+                  Tab(text: 'Video'),
+                  Tab(text: 'File'),
+                ],
               ),
               const TabBarView(children: [
                 AppCard(),
