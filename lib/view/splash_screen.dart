@@ -71,7 +71,7 @@ class SplashScreenState extends State<SplashScreen>
             children: [
               Positioned(
                 top: 360,
-                left: 50,
+                left: 48,
                 child: AnimatedBuilder(
                   animation: logoAnimation,
                   builder: (context, child) => Transform.rotate(
@@ -93,7 +93,7 @@ class SplashScreenState extends State<SplashScreen>
                       'File Share',
                       style: GoogleFonts.arvo(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 24,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
