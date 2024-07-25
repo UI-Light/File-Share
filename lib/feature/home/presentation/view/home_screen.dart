@@ -78,6 +78,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             TabBar(
               tabAlignment: TabAlignment.start,
               indicatorColor: Palette.blue,
+              labelColor: Palette.blue,
               controller: _tabController,
               isScrollable: true,
               labelStyle: const TextStyle(fontSize: 18),
@@ -106,10 +107,23 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ],
         ),
         floatingActionButton: ExpandableFab(
+          //initialOpen: true,
           distance: 112,
           children: [
-            ActionButton(onPressed: () {}, icon: Icon(Icons.send_rounded)),
-            ActionButton(onPressed: () {}, icon: Icon(Icons.download_rounded)),
+            ActionButton(
+              onPressed: () {
+                print('send button works');
+              },
+              icon: const Icon(Icons.upload_rounded),
+              iconText: 'Send',
+            ),
+            ActionButton(
+              onPressed: () {
+                print('Receive button works');
+              },
+              icon: const Icon(Icons.download_rounded),
+              iconText: 'Receive',
+            ),
           ],
         ),
       ),

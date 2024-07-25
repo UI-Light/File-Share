@@ -94,7 +94,7 @@ class ExpandableFabState extends State<ExpandableFab>
             shape: const CircleBorder(),
             elevation: 1.0,
             backgroundColor: Palette.blue,
-            onPressed: () {},
+            onPressed: toggle,
             child: const Icon(
               Icons.compare_arrows_rounded,
               size: 35,
@@ -115,6 +115,7 @@ class ExpandableFabState extends State<ExpandableFab>
         child: Material(
           shape: const CircleBorder(),
           clipBehavior: Clip.antiAlias,
+          color: Palette.blue,
           elevation: 4,
           child: InkWell(
             onTap: toggle,

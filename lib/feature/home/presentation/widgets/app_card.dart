@@ -14,7 +14,6 @@ class AppCard extends StatelessWidget {
       ),
       itemCount: 30,
       itemBuilder: (context, index) => Container(
-        //color: Colors.yellow,
         child: Column(
           children: [
             Expanded(
