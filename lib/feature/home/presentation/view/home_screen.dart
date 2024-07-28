@@ -1,8 +1,9 @@
 import "Package:flutter/material.dart";
 import "package:file_share/core/presentation/palette.dart";
-import "package:file_share/feature/home/presentation/widgets/action_button.dart";
+import "package:file_share/feature/home/presentation/widgets/floating_button/action_button.dart";
 import "package:file_share/feature/home/presentation/widgets/app_card.dart";
-import "package:file_share/feature/home/presentation/widgets/expandable_fab.dart";
+import "package:file_share/feature/home/presentation/widgets/floating_button/expandable_fab.dart";
+import "package:file_share/feature/home/presentation/widgets/photo_tab.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -97,7 +98,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 children: const [
                   AppCard(),
                   AppCard(),
-                  AppCard(),
+                  PhotoTab(),
                   AppCard(),
                   AppCard(),
                   AppCard(),

@@ -1,5 +1,5 @@
 import 'package:file_share/core/presentation/palette.dart';
-import 'package:file_share/feature/home/presentation/widgets/animated_action_button.dart';
+import 'package:file_share/feature/home/presentation/widgets/floating_button/animated_action_button.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableFab extends StatefulWidget {
