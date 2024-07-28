@@ -107,20 +107,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ],
         ),
         floatingActionButton: ExpandableFab(
-          //initialOpen: true,
           distance: 112,
           children: [
             ActionButton(
-              onPressed: () {
-                print('send button works');
-              },
+              onPressed: () {},
               icon: const Icon(Icons.upload_rounded),
               iconText: 'Send',
             ),
             ActionButton(
-              onPressed: () {
-                print('Receive button works');
-              },
+              onPressed: () {},
               icon: const Icon(Icons.download_rounded),
               iconText: 'Receive',
             ),
