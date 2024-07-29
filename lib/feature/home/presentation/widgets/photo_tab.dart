@@ -128,46 +128,47 @@ class _PhotoTabState extends State<PhotoTab> {
             ),
           ),
           //TODO: Animate(hide and pop up) send container
-          // selectedPhotos.isEmpty
-          //     ? null
-          //     :
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
+          if (selectedPhotos.isNotEmpty)
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.close_rounded,
-                    color: Palette.blue,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Palette.blue,
-                      side: const BorderSide(style: BorderStyle.none)),
-                  onPressed: () {},
-                  child: Text(
-                    'Send (${selectedPhotos.length})',
-                    style: const TextStyle(
-                      color: Colors.white,
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      selectedPhotos.clear();
+                      setState(() {});
+                    },
+                    icon: const Icon(
+                      Icons.close_rounded,
+                      color: Palette.blue,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Palette.blue,
+                        side: const BorderSide(style: BorderStyle.none)),
+                    onPressed: () {},
+                    child: Text(
+                      'Send (${selectedPhotos.length})',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
