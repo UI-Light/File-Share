@@ -1,4 +1,4 @@
-import 'package:file_share/view/home_screen.dart';
+import 'package:file_share/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,12 +51,7 @@ class SplashScreenState extends State<SplashScreen>
     );
 
     controller.forward().whenComplete(
-          () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-          ),
-        );
+        () => Navigator.of(context).pushReplacementNamed(Routes.homeRoute));
   }
 
   @override
@@ -76,7 +71,7 @@ class SplashScreenState extends State<SplashScreen>
             children: [
               Positioned(
                 top: 360,
-                left: 50,
+                left: 48,
                 child: AnimatedBuilder(
                   animation: logoAnimation,
                   builder: (context, child) => Transform.rotate(
@@ -97,9 +92,10 @@ class SplashScreenState extends State<SplashScreen>
                     child: Text(
                       'File Share',
                       style: GoogleFonts.arvo(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800),
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                 ),
