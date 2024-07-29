@@ -5,34 +5,39 @@ class PhotoTab extends StatefulWidget {
   const PhotoTab({super.key});
 
   @override
-  State<PhotoTab> createState() => _PhotocardState();
+  State<PhotoTab> createState() => _PhotoTabState();
 }
 
-class _PhotocardState extends State<PhotoTab> {
-  bool buttonOne = true;
-  bool buttonTwo = false;
-  int selectedIndex = 0;
-  bool photoIsSelected = false;
+class _PhotoTabState extends State<PhotoTab> {
+  bool imagesButton = true;
+  bool albumsButton = false;
+  int selectedButtonIndex = 0;
 
-  void selectPhoto() {
-    setState(() {
-      photoIsSelected = !photoIsSelected;
-    });
+  List<int> selectedPhotos = [];
+
+  void selectPhoto(int index) {
+    if (selectedPhotos.contains(index) == true) {
+      selectedPhotos.remove(index);
+      print(selectedPhotos);
+    } else {
+      selectedPhotos.add(index);
+      print(selectedPhotos);
+    }
   }
 
   void toggle(int index) {
     setState(() {
-      selectedIndex = index;
+      selectedButtonIndex = index;
     });
-    if (selectedIndex == 0) {
+    if (selectedButtonIndex == 0) {
       setState(() {
-        buttonOne = true;
-        buttonTwo = false;
+        imagesButton = true;
+        albumsButton = false;
       });
     } else {
       setState(() {
-        buttonTwo = true;
-        buttonOne = false;
+        albumsButton = true;
+        imagesButton = false;
       });
     }
   }
@@ -54,7 +59,7 @@ class _PhotocardState extends State<PhotoTab> {
                 child: Container(
                   height: 30,
                   width: MediaQuery.of(context).size.width / 2.5,
-                  color: buttonOne ? Palette.blue : Colors.grey[300],
+                  color: imagesButton ? Palette.blue : Colors.grey[300],
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -75,7 +80,7 @@ class _PhotocardState extends State<PhotoTab> {
                 child: Container(
                   height: 30,
                   width: MediaQuery.of(context).size.width / 2.5,
-                  color: buttonTwo ? Palette.blue : Colors.grey[300],
+                  color: albumsButton ? Palette.blue : Colors.grey[300],
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -95,7 +100,7 @@ class _PhotocardState extends State<PhotoTab> {
             child: GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, //3
+                crossAxisCount: 4,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
               ),
@@ -112,15 +117,57 @@ class _PhotocardState extends State<PhotoTab> {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    selectPhoto();
+                    selectPhoto(index);
+                    setState(() {});
                   },
-                  icon: photoIsSelected
-                      ? Icon(Icons.check_circle, color: Colors.white)
-                      : Icon(Icons.circle_outlined, color: Colors.white),
+                  icon: selectedPhotos.contains(index)
+                      ? const Icon(Icons.check_circle, color: Colors.white)
+                      : const Icon(Icons.circle_outlined, color: Colors.white),
                 ),
               ),
             ),
-          )
+          ),
+          //TODO: Animate(hide and pop up) send container
+          // selectedPhotos.isEmpty
+          //     ? null
+          //     :
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 50,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: Palette.blue,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Palette.blue,
+                      side: const BorderSide(style: BorderStyle.none)),
+                  onPressed: () {},
+                  child: Text(
+                    'Send (${selectedPhotos.length})',
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
