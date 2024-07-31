@@ -1,4 +1,5 @@
 import 'package:file_share/core/presentation/palette.dart';
+import 'package:file_share/feature/home/presentation/viewmodel/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class PhotoTab extends StatefulWidget {
@@ -9,6 +10,8 @@ class PhotoTab extends StatefulWidget {
 }
 
 class _PhotoTabState extends State<PhotoTab> {
+  final HomeViewmodel homeViewmodel = HomeViewmodel();
+
   bool imagesButton = true;
   bool albumsButton = false;
   int selectedButtonIndex = 0;
@@ -40,6 +43,12 @@ class _PhotoTabState extends State<PhotoTab> {
         imagesButton = false;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    homeViewmodel.loadPhotos();
   }
 
   @override
@@ -97,35 +106,67 @@ class _PhotoTabState extends State<PhotoTab> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: 30,
-              itemBuilder: (context, index) => Container(
-                alignment: Alignment.topRight,
-                height: 120,
-                width: 120,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/cake.jpg'),
-                  ),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    selectPhoto(index);
-                    setState(() {});
-                  },
-                  icon: selectedPhotos.contains(index)
-                      ? const Icon(Icons.check_circle, color: Colors.white)
-                      : const Icon(Icons.circle_outlined, color: Colors.white),
-                ),
-              ),
-            ),
+            child: ValueListenableBuilder(
+                valueListenable: homeViewmodel.photos,
+                builder: (context, photos, _) {
+                  return GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                    ),
+                    itemCount: photos.length,
+                    itemBuilder: (context, index) {
+                      final photo = photos[index];
+
+                      return FutureBuilder(
+                        future: photo.thumbnailData,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Container(
+                              height: 120,
+                              width: 120,
+                              color: Colors.grey[300],
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            return Container(
+                              height: 120,
+                              width: 120,
+                              color: Colors.grey[300],
+                              child: const Center(
+                                  child: Icon(Icons.broken_image_rounded)),
+                            );
+                          }
+                          return Container(
+                            alignment: Alignment.topRight,
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: MemoryImage(snapshot.data!),
+                              ),
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                selectPhoto(index);
+                                setState(() {});
+                              },
+                              icon: selectedPhotos.contains(index)
+                                  ? const Icon(Icons.check_circle,
+                                      color: Colors.white)
+                                  : const Icon(Icons.circle_outlined,
+                                      color: Colors.white),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                }),
           ),
           //TODO: Animate(hide and pop up) send container
           if (selectedPhotos.isNotEmpty)
