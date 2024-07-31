@@ -1,5 +1,9 @@
 import 'package:file_share/core/presentation/palette.dart';
 import 'package:file_share/feature/home/presentation/viewmodel/home_viewmodel.dart';
+import 'package:file_share/feature/home/presentation/widgets/photo_tab/button_tabs.dart';
+import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_card.dart';
+import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_error_card.dart';
+import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_loading_card.dart';
 import 'package:flutter/material.dart';
 
 class PhotoTab extends StatefulWidget {
@@ -12,10 +16,6 @@ class PhotoTab extends StatefulWidget {
 class _PhotoTabState extends State<PhotoTab> {
   final HomeViewmodel homeViewmodel = HomeViewmodel();
 
-  bool imagesButton = true;
-  bool albumsButton = false;
-  int selectedButtonIndex = 0;
-
   List<int> selectedPhotos = [];
 
   void selectPhoto(int index) {
@@ -25,23 +25,6 @@ class _PhotoTabState extends State<PhotoTab> {
     } else {
       selectedPhotos.add(index);
       print(selectedPhotos);
-    }
-  }
-
-  void toggle(int index) {
-    setState(() {
-      selectedButtonIndex = index;
-    });
-    if (selectedButtonIndex == 0) {
-      setState(() {
-        imagesButton = true;
-        albumsButton = false;
-      });
-    } else {
-      setState(() {
-        albumsButton = true;
-        imagesButton = false;
-      });
     }
   }
 
@@ -57,53 +40,7 @@ class _PhotoTabState extends State<PhotoTab> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  toggle(0);
-                  print('this is image');
-                },
-                child: Container(
-                  height: 30,
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  color: imagesButton ? Palette.blue : Colors.grey[300],
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.image),
-                      SizedBox(
-                        width: 8.0,
-                      ),
-                      Text('733'),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  toggle(1);
-                  print('this is album');
-                },
-                child: Container(
-                  height: 30,
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  color: albumsButton ? Palette.blue : Colors.grey[300],
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.photo_library),
-                      SizedBox(
-                        width: 8.0,
-                      ),
-                      Text('23'),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          const ButtonTabs(),
           const SizedBox(height: 8),
           Expanded(
             child: ValueListenableBuilder(
@@ -125,43 +62,12 @@ class _PhotoTabState extends State<PhotoTab> {
                         future: photo.thumbnailData,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Container(
-                              height: 120,
-                              width: 120,
-                              color: Colors.grey[300],
-                            );
+                            return const PhotoLoadingCard();
                           }
                           if (snapshot.hasError) {
-                            return Container(
-                              height: 120,
-                              width: 120,
-                              color: Colors.grey[300],
-                              child: const Center(
-                                  child: Icon(Icons.broken_image_rounded)),
-                            );
+                            return const PhotoErrorCard();
                           }
-                          return Container(
-                            alignment: Alignment.topRight,
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: MemoryImage(snapshot.data!),
-                              ),
-                            ),
-                            child: IconButton(
-                              onPressed: () {
-                                selectPhoto(index);
-                                setState(() {});
-                              },
-                              icon: selectedPhotos.contains(index)
-                                  ? const Icon(Icons.check_circle,
-                                      color: Colors.white)
-                                  : const Icon(Icons.circle_outlined,
-                                      color: Colors.white),
-                            ),
-                          );
+                          return PhotoCard(index: index, snapshot: snapshot);
                         },
                       );
                     },

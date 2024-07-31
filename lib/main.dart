@@ -1,6 +1,6 @@
 import 'package:file_share/core/routes/routes.dart';
 import 'package:file_share/feature/home/presentation/view/home_screen.dart';
-import 'package:file_share/view/splash_screen.dart';
+import 'package:file_share/feature/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
