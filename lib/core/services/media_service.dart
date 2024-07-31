@@ -8,8 +8,8 @@ class MediaService {
       type: RequestType.image,
     );
 
-    final List<AssetEntity> photos =
-        await PhotoManager.getAssetListPaged(page: 0, pageCount: count);
+    final List<AssetEntity> photos = await PhotoManager.getAssetListPaged(
+        page: 0, pageCount: count); //TODO: work on pagination
     return photos;
   }
 

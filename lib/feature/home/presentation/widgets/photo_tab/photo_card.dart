@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 
-class PhotoCard extends StatefulWidget {
-  final int index;
+class PhotoCard extends StatelessWidget {
   final AsyncSnapshot snapshot;
+  final VoidCallback onPressed;
+  final bool isSelected;
   const PhotoCard({
     super.key,
-    required this.index,
     required this.snapshot,
+    required this.onPressed,
+    required this.isSelected,
   });
-
-  @override
-  State<PhotoCard> createState() => _PhotoCardState();
-}
-
-class _PhotoCardState extends State<PhotoCard> {
-  List<int> selectedPhotos = [];
-
-  void selectPhoto(int index) {
-    if (selectedPhotos.contains(index) == true) {
-      selectedPhotos.remove(index);
-      print(selectedPhotos);
-    } else {
-      selectedPhotos.add(index);
-      print(selectedPhotos);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +20,15 @@ class _PhotoCardState extends State<PhotoCard> {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: MemoryImage(widget.snapshot.data!),
+          image: MemoryImage(snapshot.data!),
         ),
       ),
       child: IconButton(
-        onPressed: () {
-          selectPhoto(widget.index);
-          setState(() {});
-        },
-        icon: selectedPhotos.contains(widget.index)
-            ? const Icon(Icons.check_circle, color: Colors.white)
-            : const Icon(Icons.circle_outlined, color: Colors.white),
+        onPressed: onPressed,
+        icon: Icon(
+          isSelected ? Icons.check_circle : Icons.circle_outlined,
+          color: Colors.white,
+        ),
       ),
     );
   }

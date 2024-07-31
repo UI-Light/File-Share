@@ -19,13 +19,14 @@ class _PhotoTabState extends State<PhotoTab> {
   List<int> selectedPhotos = [];
 
   void selectPhoto(int index) {
-    if (selectedPhotos.contains(index) == true) {
+    if (selectedPhotos.contains(index)) {
       selectedPhotos.remove(index);
       print(selectedPhotos);
     } else {
       selectedPhotos.add(index);
       print(selectedPhotos);
     }
+    setState(() {});
   }
 
   @override
@@ -67,7 +68,12 @@ class _PhotoTabState extends State<PhotoTab> {
                           if (snapshot.hasError) {
                             return const PhotoErrorCard();
                           }
-                          return PhotoCard(index: index, snapshot: snapshot);
+                          return PhotoCard(
+                              snapshot: snapshot,
+                              isSelected: selectedPhotos.contains(index),
+                              onPressed: () {
+                                selectPhoto(index);
+                              });
                         },
                       );
                     },
