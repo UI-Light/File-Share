@@ -16,32 +16,39 @@ class PhotoTab extends StatefulWidget {
 class _PhotoTabState extends State<PhotoTab> {
   final HomeViewmodel homeViewmodel = HomeViewmodel();
 
-  List<int> selectedPhotos = [];
+  final ValueNotifier<List<int>> selectedPhotos = ValueNotifier([]);
 
   void selectPhoto(int index) {
-    if (selectedPhotos.contains(index)) {
-      selectedPhotos.remove(index);
+    if (selectedPhotos.value.contains(index)) {
+      selectedPhotos.value.remove(index);
+      selectedPhotos.value = [...selectedPhotos.value];
       print(selectedPhotos);
     } else {
-      selectedPhotos.add(index);
+      selectedPhotos.value.add(index);
+      selectedPhotos.value = [...selectedPhotos.value];
       print(selectedPhotos);
     }
-    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    homeViewmodel.loadPhotos();
+    homeViewmodel.initialize();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         children: [
-          const ButtonTabs(),
+          ValueListenableBuilder(
+              valueListenable: homeViewmodel.photosCount,
+              builder: (context, count, _) {
+                return ButtonTabs(
+                  photoCount: count,
+                );
+              }),
           const SizedBox(height: 8),
           Expanded(
             child: ValueListenableBuilder(
@@ -68,11 +75,15 @@ class _PhotoTabState extends State<PhotoTab> {
                           if (snapshot.hasError) {
                             return const PhotoErrorCard();
                           }
-                          return PhotoCard(
-                              snapshot: snapshot,
-                              isSelected: selectedPhotos.contains(index),
-                              onPressed: () {
-                                selectPhoto(index);
+                          return ValueListenableBuilder(
+                              valueListenable: selectedPhotos,
+                              builder: (context, photoList, _) {
+                                return PhotoCard(
+                                    snapshot: snapshot,
+                                    isSelected: photoList.contains(index),
+                                    onPressed: () {
+                                      selectPhoto(index);
+                                    });
                               });
                         },
                       );
@@ -81,47 +92,54 @@ class _PhotoTabState extends State<PhotoTab> {
                 }),
           ),
           //TODO: Animate(hide and pop up) send container
-          if (selectedPhotos.isNotEmpty)
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 50,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      selectedPhotos.clear();
-                      setState(() {});
-                    },
-                    icon: const Icon(
-                      Icons.close_rounded,
-                      color: Palette.blue,
+
+          ValueListenableBuilder(
+            valueListenable: selectedPhotos,
+            builder: (context, photoList, _) {
+              if (photoList.isNotEmpty) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Palette.blue,
-                        side: const BorderSide(style: BorderStyle.none)),
-                    onPressed: () {},
-                    child: Text(
-                      'Send (${selectedPhotos.length})',
-                      style: const TextStyle(
-                        color: Colors.white,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          selectedPhotos.value = [];
+                        },
+                        icon: const Icon(
+                          Icons.close_rounded,
+                          color: Palette.blue,
+                        ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Palette.blue,
+                            side: const BorderSide(style: BorderStyle.none)),
+                        onPressed: () {},
+                        child: Text(
+                          'Send (${selectedPhotos.value.length})',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                );
+              }
+              return const SizedBox();
+            },
+          ),
         ],
       ),
     );

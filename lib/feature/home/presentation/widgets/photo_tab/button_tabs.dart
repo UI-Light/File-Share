@@ -1,16 +1,18 @@
 import 'package:file_share/core/presentation/palette.dart';
-import 'package:file_share/feature/home/presentation/viewmodel/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class ButtonTabs extends StatefulWidget {
-  const ButtonTabs({super.key});
+  final int photoCount;
+  const ButtonTabs({
+    super.key,
+    required this.photoCount,
+  });
 
   @override
   State<ButtonTabs> createState() => _ButtonTabsState();
 }
 
 class _ButtonTabsState extends State<ButtonTabs> {
-  final HomeViewmodel _homeViewmodel = HomeViewmodel();
   bool imagesButton = true;
   bool albumsButton = false;
   int selectedButtonIndex = 0;
@@ -20,22 +22,13 @@ class _ButtonTabsState extends State<ButtonTabs> {
       selectedButtonIndex = index;
     });
     if (selectedButtonIndex == 0) {
-      setState(() {
-        imagesButton = true;
-        albumsButton = false;
-      });
+      imagesButton = true;
+      albumsButton = false;
     } else {
-      setState(() {
-        albumsButton = true;
-        imagesButton = false;
-      });
+      albumsButton = true;
+      imagesButton = false;
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _homeViewmodel.showPhotoCount();
+    setState(() {});
   }
 
   @override
@@ -59,11 +52,7 @@ class _ButtonTabsState extends State<ButtonTabs> {
                 const SizedBox(
                   width: 8.0,
                 ),
-                ValueListenableBuilder(
-                    valueListenable: _homeViewmodel.photosCount,
-                    builder: (context, count, _) {
-                      return Text(count.toString());
-                    }),
+                Text(widget.photoCount.toString())
               ],
             ),
           ),
