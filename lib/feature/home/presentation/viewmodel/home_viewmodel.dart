@@ -12,7 +12,7 @@ class HomeViewmodel {
   ValueNotifier<int> get photosCount => _photosCount;
 
   Future<void> permission() async {
-    await _mediaService.getPermission();
+    await _mediaService.requestMediaPermission();
   }
 
   Future<void> loadPhotos() async {

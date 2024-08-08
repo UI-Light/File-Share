@@ -4,6 +4,7 @@ import 'package:file_share/feature/home/presentation/widgets/photo_tab/button_ta
 import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_card.dart';
 import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_error_card.dart';
 import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_loading_card.dart';
+import 'package:file_share/feature/home/presentation/widgets/photo_tab/send_bar.dart';
 import 'package:flutter/material.dart';
 
 class PhotoTab extends StatefulWidget {
@@ -22,11 +23,9 @@ class _PhotoTabState extends State<PhotoTab> {
     if (selectedPhotos.value.contains(index)) {
       selectedPhotos.value.remove(index);
       selectedPhotos.value = [...selectedPhotos.value];
-      print(selectedPhotos);
     } else {
       selectedPhotos.value.add(index);
       selectedPhotos.value = [...selectedPhotos.value];
-      print(selectedPhotos);
     }
   }
 
@@ -91,50 +90,17 @@ class _PhotoTabState extends State<PhotoTab> {
                   );
                 }),
           ),
-          //TODO: Animate(hide and pop up) send container
 
+          //TODO: Animate(hide and pop up) send bar
           ValueListenableBuilder(
             valueListenable: selectedPhotos,
             builder: (context, photoList, _) {
               if (photoList.isNotEmpty) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          selectedPhotos.value = [];
-                        },
-                        icon: const Icon(
-                          Icons.close_rounded,
-                          color: Palette.blue,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Palette.blue,
-                            side: const BorderSide(style: BorderStyle.none)),
-                        onPressed: () {},
-                        child: Text(
-                          'Send (${selectedPhotos.value.length})',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                return SendBar(
+                  onPressed: () {
+                    selectedPhotos.value = [];
+                  },
+                  selectedPhotos: selectedPhotos.value.length,
                 );
               }
               return const SizedBox();

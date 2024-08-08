@@ -1,7 +1,7 @@
 import 'package:photo_manager/photo_manager.dart';
 
 class MediaService {
-  Future<void> getPermission() async {
+  Future<void> requestMediaPermission() async {
     await PhotoManager.requestPermissionExtend();
   }
 
@@ -14,7 +14,7 @@ class MediaService {
 
   //TODO: work on pagination
   Future<List<AssetEntity>> fetchPhotos() async {
-    await getPermission();
+    await requestMediaPermission();
     final int count = await photoCount();
     final List<AssetEntity> photos =
         await PhotoManager.getAssetListPaged(page: 0, pageCount: count);
