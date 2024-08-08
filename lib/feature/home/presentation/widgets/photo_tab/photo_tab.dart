@@ -1,4 +1,3 @@
-import 'package:file_share/core/presentation/palette.dart';
 import 'package:file_share/feature/home/presentation/viewmodel/home_viewmodel.dart';
 import 'package:file_share/feature/home/presentation/widgets/photo_tab/button_tabs.dart';
 import 'package:file_share/feature/home/presentation/widgets/photo_tab/photo_card.dart';
