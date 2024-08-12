@@ -77,7 +77,7 @@ class _PhotoTabState extends State<PhotoTab> {
                               valueListenable: selectedPhotos,
                               builder: (context, photoList, _) {
                                 return PhotoCard(
-                                    snapshot: snapshot,
+                                    imageBytes: snapshot.data!,
                                     isSelected: photoList.contains(index),
                                     onPressed: () {
                                       selectPhoto(index);

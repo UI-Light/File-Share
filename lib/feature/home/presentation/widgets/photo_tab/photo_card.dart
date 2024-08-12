@@ -1,12 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 class PhotoCard extends StatelessWidget {
-  final AsyncSnapshot snapshot;
+  final Uint8List imageBytes;
   final VoidCallback onPressed;
   final bool isSelected;
   const PhotoCard({
     super.key,
-    required this.snapshot,
+    required this.imageBytes,
     required this.onPressed,
     required this.isSelected,
   });
@@ -20,7 +22,7 @@ class PhotoCard extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: MemoryImage(snapshot.data!),
+          image: MemoryImage(imageBytes),
         ),
       ),
       child: IconButton(
