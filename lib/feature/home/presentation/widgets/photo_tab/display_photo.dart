@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DisplayPhoto extends StatelessWidget {
-  final String? path;
+  final String path;
   const DisplayPhoto({super.key, required this.path});
 
   @override
@@ -14,7 +14,7 @@ class DisplayPhoto extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage(path!),
+            image: AssetImage(path),
           ),
         ),
       ),

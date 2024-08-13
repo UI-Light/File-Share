@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class SendBar extends StatelessWidget {
   final VoidCallback onPressed;
-  final int selectedPhotos;
+  final int photoCount;
   const SendBar({
     super.key,
     required this.onPressed,
-    required this.selectedPhotos,
+    required this.photoCount,
   });
 
   @override
@@ -40,7 +40,7 @@ class SendBar extends StatelessWidget {
                 side: const BorderSide(style: BorderStyle.none)),
             onPressed: () {},
             child: Text(
-              'Send ($selectedPhotos)',
+              'Send ($photoCount)',
               style: const TextStyle(
                 color: Colors.white,
               ),

@@ -99,7 +99,7 @@ class _PhotoTabState extends State<PhotoTab> {
                   onPressed: () {
                     selectedPhotos.value = [];
                   },
-                  selectedPhotos: selectedPhotos.value.length,
+                  photoCount: photoList.length,
                 );
               }
               return const SizedBox();

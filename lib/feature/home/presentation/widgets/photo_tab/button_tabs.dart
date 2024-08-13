@@ -31,7 +31,6 @@ class _ButtonTabsState extends State<ButtonTabs> {
           isSelected: selectedButtonIndex == 0,
           onPressed: () {
             toggle(0);
-            print('This is image');
           },
         ),
         Button(
@@ -40,7 +39,6 @@ class _ButtonTabsState extends State<ButtonTabs> {
           isSelected: selectedButtonIndex == 1,
           onPressed: () {
             toggle(1);
-            print('This is album');
           },
         ),
       ],
