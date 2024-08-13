@@ -87,7 +87,7 @@ class SplashScreenState extends State<SplashScreen>
                   duration: const Duration(seconds: 1),
                   opacity: opacity.value,
                   child: AnimatedScale(
-                    duration: const Duration(seconds: 3), //this
+                    duration: const Duration(seconds: 3),
                     scale: 1.5,
                     child: Text(
                       'File Share',
